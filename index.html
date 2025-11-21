@@ -184,8 +184,16 @@
         <button class="filter-btn" data-filter="oficiais">Fotos oficiais</button>
       </div>
       <div id="gallery" class="gallery"></div>
+      <div style="margin-top:12px"><button id="gallery-more" class="btn btn-outline">Carregar mais fotos</button></div>
       <div class="video-embed">
-        <iframe id="youtube-frame" title="Vídeo" width="560" height="315" src="" allowfullscreen></iframe>
+        <div class="video-primary">
+          <iframe id="youtube-frame" title="Vídeo" width="560" height="315" src="" allowfullscreen></iframe>
+        </div>
+        <div class="video-controls">
+          <button id="yt-prev" class="btn btn-outline">Anterior</button>
+          <button id="yt-next" class="btn btn-outline">Próximo</button>
+        </div>
+        <div id="yt-thumbs" class="yt-thumbs" aria-label="Vídeos disponíveis"></div>
       </div>
     </div>
   </section>
