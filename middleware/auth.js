@@ -1,0 +1,1 @@
+export const adminAuth=(req,res,next)=>{const h=req.headers.authorization||'';const token=h.startsWith('Bearer ')?h.slice(7):null;const expected=process.env.ADMIN_TOKEN||'padre-admin-local';if(!token||token!==expected)return res.status(401).json({error:'nao_autorizado'});next()}
