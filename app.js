@@ -55,4 +55,4 @@ app.post('/api/assistant',async(req,res)=>{try{const {text,session_id}=req.body|
 }catch(err){res.status(500).json({error:'assistant_fail',detail:String(err)})}})
 app.get('/api/admin/llm/free-models',async(req,res)=>{try{const list=await getApiFreeModels();res.json({models:list})}catch{res.status(500).json({error:'fetch_fail'})}})
 
-export { app }
+export default app
