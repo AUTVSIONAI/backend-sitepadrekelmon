@@ -12,6 +12,19 @@ const sessions=new Map()
 const app=express()
 app.use(cors())
 app.use(helmet())
+app.use(helmet.contentSecurityPolicy({
+  useDefaults:true,
+  directives:{
+    defaultSrc:["'self'"],
+    scriptSrc:["'self'","'unsafe-inline'","https://vercel.live","https://*.vercel.live"],
+    scriptSrcElem:["'self'","'unsafe-inline'","https://vercel.live","https://*.vercel.live"],
+    connectSrc:["'self'","https://vercel.live","https://*.vercel.live","wss://*.vercel.live"],
+    imgSrc:["'self'","data:","blob:","https:"],
+    styleSrc:["'self'","'unsafe-inline'"],
+    fontSrc:["'self'","data:"],
+    frameSrc:["'self'","https://www.youtube.com","https://www.youtube-nocookie.com"]
+  }
+}))
 app.use(express.json({limit:'2mb'}))
 app.use(morgan('tiny'))
 
