@@ -9,7 +9,7 @@
       "src": "/(.*)",
       "headers": {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
+        "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,PUT,OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization, authorization, X-Requested-With, Accept, Origin",
         "Access-Control-Max-Age": "600"
       }
