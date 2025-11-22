@@ -12,7 +12,7 @@ const sessions=new Map()
 const app=express()
 const FRONT_ORIGIN=process.env.FRONT_ORIGIN||'https://sitepadrekelmon.vercel.app'
 app.use(cors({origin:true}))
-app.use((req,res,next)=>{const o=req.headers.origin||FRONT_ORIGIN||'*';res.header('Access-Control-Allow-Origin',o);res.header('Vary','Origin');res.header('Access-Control-Allow-Methods','GET,POST,PATCH,DELETE,OPTIONS');res.header('Access-Control-Allow-Headers','Content-Type, Authorization, X-Requested-With, Accept, Origin');res.header('Access-Control-Max-Age','600');if(req.method==='OPTIONS'){return res.status(204).end()}next()})
+app.use((req,res,next)=>{const o=req.headers.origin||FRONT_ORIGIN||'*';res.header('Access-Control-Allow-Origin',o);res.header('Vary','Origin');res.header('Access-Control-Allow-Methods','GET,POST,PATCH,DELETE,OPTIONS');res.header('Access-Control-Allow-Headers','Content-Type, Authorization, authorization, X-Requested-With, Accept, Origin');res.header('Access-Control-Max-Age','600');if(req.method==='OPTIONS'){return res.status(204).end()}next()})
 app.use(helmet())
 app.use(helmet.contentSecurityPolicy({
   useDefaults:true,
