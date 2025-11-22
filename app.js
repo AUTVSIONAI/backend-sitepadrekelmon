@@ -69,3 +69,32 @@ app.post('/api/assistant',async(req,res)=>{try{const {text,session_id}=req.body|
 app.get('/api/admin/llm/free-models',async(req,res)=>{try{const list=await getApiFreeModels();res.json({models:list})}catch{res.status(500).json({error:'fetch_fail'})}})
 
 export default app
+app.get('/',(req,res)=>{
+  res.json({
+    ok:true,
+    name:'sitepadrekelmon-backend',
+    endpoints:[
+      'GET /',
+      'GET /api/posts',
+      'GET /api/events',
+      'GET /api/gallery',
+      'GET /api/settings',
+      'POST /api/volunteers',
+      'POST /api/contacts',
+      'POST /api/assistant',
+      'GET /api/admin/events',
+      'POST /api/admin/events',
+      'PATCH /api/admin/events/:id',
+      'DELETE /api/admin/events/:id',
+      'POST /api/admin/media',
+      'POST /api/admin/gallery-items',
+      'PATCH /api/admin/gallery-items/:id',
+      'DELETE /api/admin/gallery-items/:id',
+      'POST /api/admin/posts',
+      'PATCH /api/admin/posts/:id',
+      'DELETE /api/admin/posts/:id',
+      'PUT /api/admin/settings',
+      'GET /api/admin/llm/free-models'
+    ]
+  })
+})
