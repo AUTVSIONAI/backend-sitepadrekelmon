@@ -10,7 +10,15 @@ import { chatWithFreeModels, getApiFreeModels } from "./llm/dispatcher.js"
 
 const sessions=new Map()
 const app=express()
-app.use(cors())
+const FRONT_ORIGIN=process.env.FRONT_ORIGIN||'https://sitepadrekelmon.vercel.app'
+const corsOpts={
+  origin:(origin,cb)=>{if(!origin)return cb(null,true);const ok=[FRONT_ORIGIN].includes(origin);cb(null,ok)},
+  methods:['GET','POST','PATCH','DELETE','OPTIONS'],
+  allowedHeaders:['Content-Type','Authorization'],
+  optionsSuccessStatus:204
+}
+app.use(cors(corsOpts))
+app.options('*',cors(corsOpts))
 app.use(helmet())
 app.use(helmet.contentSecurityPolicy({
   useDefaults:true,
