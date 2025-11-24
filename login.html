@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login • Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main class="section">
+  <div class="container" style="max-width:520px">
+    <h2 class="section-title">Acesso Administrativo</h2>
+    <form id="login-form" class="form">
+      <div class="form-group">
+        <label for="login-user">Usuário</label>
+        <input id="login-user" type="text" value="admin" required>
+      </div>
+      <div class="form-group">
+        <label for="login-pass">Senha</label>
+        <input id="login-pass" type="password" required>
+      </div>
+      <button type="submit" class="btn btn-gold">Entrar</button>
+      <p id="login-status" class="form-status"></p>
+    </form>
+    <p class="small">Se é seu primeiro acesso, use a senha padrão.</p>
+  </div>
+  </main>
+<script src="assets/auth.js"></script>
+</body>
+</html>
