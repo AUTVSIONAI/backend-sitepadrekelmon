@@ -54,6 +54,10 @@ app.put('/api/admin/settings',adminAuth,async(req,res)=>{const {key,value}=req.b
   ;({data,error}=await supabase.from('settings').insert([{key,value:val}]).select().single())
   if(error)return res.status(500).json({error:error.message});res.json(data)
 })
+app.get('/api/admin/volunteers',adminAuth,async(req,res)=>{const {data,error}=await supabase.from('volunteers').select('*').order('created_at',{ascending:false});if(error)return res.status(500).json({error:error.message});res.json(data||[])})
+app.patch('/api/admin/volunteers/:id',adminAuth,async(req,res)=>{const {id}=req.params;const {data,error}=await supabase.from('volunteers').update(req.body).eq('id',id).select().single();if(error)return res.status(500).json({error:error.message});res.json(data)})
+app.get('/api/admin/contacts',adminAuth,async(req,res)=>{const {data,error}=await supabase.from('contacts').select('*').order('created_at',{ascending:false});if(error)return res.status(500).json({error:error.message});res.json(data||[])})
+app.patch('/api/admin/contacts/:id',adminAuth,async(req,res)=>{const {id}=req.params;const {data,error}=await supabase.from('contacts').update(req.body).eq('id',id).select().single();if(error)return res.status(500).json({error:error.message});res.json(data)})
 app.delete('/api/admin/gallery-items/:id',adminAuth,async(req,res)=>{const {id}=req.params;const {error}=await supabase.from('gallery_items').delete().eq('id',id);if(error)return res.status(500).json({error:error.message});res.json({ok:true})})
 app.post('/api/assistant',async(req,res)=>{try{const {text,session_id}=req.body||{};if(!text)return res.status(400).json({error:'texto_vazio'});const {data:settings}=await supabase.from('settings').select('*');const map=new Map((settings||[]).map(s=>[s.key,s.value]));let system=map.get('chat_system_prompt')||'Responda em português de forma direta e objetiva à pergunta do usuário antes de qualquer saudação. Mantenha um tom pastoral e patriótico, mas sem floreios. Use até 2 parágrafos. Se não souber ou não puder confirmar (por exemplo, sobre candidatura), diga isso claramente e oriente a acompanhar canais oficiais. Ofereça ajuda adicional no final, com uma única frase breve.';if(system&&typeof system!=='string'){system=system.prompt||'Responda em português de forma direta e objetiva à pergunta do usuário antes de qualquer saudação. Mantenha um tom pastoral e patriótico, mas sem floreios. Use até 2 parágrafos. Se não souber ou não puder confirmar (por exemplo, sobre candidatura), diga isso claramente e oriente a acompanhar canais oficiais. Ofereça ajuda adicional no final, com uma única frase breve.'};const sid=session_id||`sess-${Date.now()}`;try{await supabase.from('chat_messages').insert([{session_id:sid,role:'user',message:text,model:'user'}])}catch{}
   let history=sessions.get(sid)||[];history=[...history,{role:'user',content:text}];sessions.set(sid,history.slice(-6))
@@ -84,6 +88,10 @@ app.get('/',(req,res)=>{
       'POST /api/volunteers',
       'POST /api/contacts',
       'POST /api/assistant',
+      'GET /api/admin/volunteers',
+      'PATCH /api/admin/volunteers/:id',
+      'GET /api/admin/contacts',
+      'PATCH /api/admin/contacts/:id',
       'GET /api/admin/events',
       'POST /api/admin/events',
       'PATCH /api/admin/events/:id',
