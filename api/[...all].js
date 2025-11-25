@@ -1,4 +1,4 @@
-import app from '../app.js'
+import app from '../server/app.js'
 export default function handler(req,res){
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*')
   res.setHeader('Vary', 'Origin')
