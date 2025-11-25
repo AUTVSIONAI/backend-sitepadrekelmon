@@ -39,6 +39,7 @@ app.get('/api/gallery',async(req,res)=>{const {data:items,error}=await supabase.
 app.get('/api/settings',async(req,res)=>{const {data,error}=await supabase.from('settings').select('*');if(error)return res.status(500).json({error:error.message});res.json(data||[])})
 app.post('/api/admin/media',adminAuth,async(req,res)=>{const {type,title,alt_text,url,category,published=true}=req.body||{};if(!requireFields([type,url]))return res.status(400).json({error:'dados_invalidos'});const {data,error}=await supabase.from('media').insert([{type,title,alt_text,url,category,published}]).select().single();if(error)return res.status(500).json({error:error.message});res.json(data)})
 app.post('/api/admin/gallery-items',adminAuth,async(req,res)=>{const {media_id,category,position=0,published=true}=req.body||{};if(!requireFields([media_id,category]))return res.status(400).json({error:'dados_invalidos'});const {data,error}=await supabase.from('gallery_items').insert([{media_id,category,position,published}]).select().single();if(error)return res.status(500).json({error:error.message});res.json(data)})
+app.get('/api/admin/gallery-items',adminAuth,async(req,res)=>{const {data:items,error}=await supabase.from('gallery_items').select('*').order('position');if(error)return res.status(500).json({error:error.message});const ids=[...new Set(items.map(i=>i.media_id))];const {data:med,error:err2}=await supabase.from('media').select('*').in('id',ids);if(err2)return res.status(500).json({error:err2.message});const map=new Map((med||[]).map(m=>[m.id,m]));const out=(items||[]).map(i=>({id:i.id,category:i.category,position:i.position,published:i.published,media_id:i.media_id,media:map.get(i.media_id)}));res.json(out)})
 app.patch('/api/admin/gallery-items/:id',adminAuth,async(req,res)=>{const {id}=req.params;const {data,error}=await supabase.from('gallery_items').update(req.body).eq('id',id).select().single();if(error)return res.status(500).json({error:error.message});res.json(data)})
 app.post('/api/admin/posts',adminAuth,async(req,res)=>{const {slug,title,excerpt,content,status='draft',published_at=null,cover_media_id=null}=req.body||{};if(!requireFields([slug,title,content]))return res.status(400).json({error:'dados_invalidos'});const {data,error}=await supabase.from('posts').insert([{slug,title,excerpt,content,status,published_at,cover_media_id}]).select().single();if(error)return res.status(500).json({error:error.message});res.json(data)})
 app.patch('/api/admin/posts/:id',adminAuth,async(req,res)=>{const {id}=req.params;const {data,error}=await supabase.from('posts').update(req.body).eq('id',id).select().single();if(error)return res.status(500).json({error:error.message});res.json(data)})
@@ -97,6 +98,7 @@ app.get('/',(req,res)=>{
       'PATCH /api/admin/events/:id',
       'DELETE /api/admin/events/:id',
       'POST /api/admin/media',
+      'GET /api/admin/gallery-items',
       'POST /api/admin/gallery-items',
       'PATCH /api/admin/gallery-items/:id',
       'DELETE /api/admin/gallery-items/:id',
